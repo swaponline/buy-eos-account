@@ -1,0 +1,27 @@
+{
+  "name": "eos-buy-account",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "test": "mocha test"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "bitcore-lib": "^0.15.0",
+    "bitcore-message": "^1.0.4",
+    "dotenv": "^6.0.0",
+    "eosjs": "^16.0.8",
+    "express": "^4.16.3",
+    "request": "^2.88.0",
+    "seneca": "^3.7.0",
+    "seneca-web": "^2.2.1",
+    "seneca-web-adapter-express": "^1.1.2"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "chai-spies": "^1.0.0",
+    "sinon": "^6.3.4"
+  }
+}

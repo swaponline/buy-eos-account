@@ -9,10 +9,15 @@ module.exports = function api(options) {
         prefix: '/',
         pin: 'role:api,path:*',
         map: {
-          newaccount: { POST: true, suffix: '/' }
+          newaccount: { POST: true, suffix: '/' },
+          ping: { GET: true, suffix: '/' }
         }
       }
     }, done)
+  })
+
+  seneca.add({ role: 'api', path: 'ping' }, (args, done) => {
+    done(null, { ping: new Date() })
   })
 
   // POST /buyaccount

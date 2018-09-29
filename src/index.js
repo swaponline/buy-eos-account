@@ -10,7 +10,7 @@ const context = new Router()
 const app = Express()
   .use(require('body-parser').json())
   .use(context)
-  .listen(3000)
+  .listen(process.env.PORT)
 
 const eosOptions = {
   params: {

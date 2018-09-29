@@ -13,7 +13,7 @@ module.exports = function btc(options) {
   function checkSignature(args, done) {
     const { accountName, publicKey, address, signature } = args
 
-    const message = JSON.stringify({ accountName, publicKey })
+    const message = `${accountName}:${publicKey}`
     const verified = bitcoinMessage.verify(message, address, signature)
 
     done(null, { verified })

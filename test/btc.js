@@ -22,7 +22,7 @@ const init = (done) => {
 const sign = (args) => {
   const { accountName, publicKey, address, encodedPrivateKey } = args
 
-  const message = JSON.stringify({ accountName, publicKey })
+  const message = `${accountName}:${publicKey}`
 
   const keyPair = bitcoin.ECPair.fromWIF(encodedPrivateKey, bitcoin.networks.bitcoin)
   const privateKey = keyPair.d.toBuffer(32)

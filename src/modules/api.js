@@ -3,9 +3,15 @@ module.exports = function api(options) {
 
   const { recipient, value } = options
 
+  // POST /buyaccount
   seneca.add({ role: 'api', cmd: 'newaccount' }, main)
-  seneca.add({ role: 'api', path: 'newaccount' }, (args, done) => {
+  seneca.add({ role: 'api', path: 'buyaccount' }, (args, done) => {
     seneca.act({ role: 'api', cmd: 'newaccount' }, args.args.body, done)
+  })
+
+  // POST /newaccount (legacy)
+  seneca.add({ role: 'api', path: 'newaccount' }, (args, done) => {
+    seneca.act({ role: 'eos', cmd: 'createAccount' }, args, done)
   })
 
   function main(args, done) {

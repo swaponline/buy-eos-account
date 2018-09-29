@@ -14,7 +14,7 @@ const app = Express()
 
 const eosOptions = {
   params: {
-    serviceAccount: 'sevenflash',
+    serviceAccount: process.env.SERVICE_ACCOUNT,
     bytesAmount: '10000',
     netAmount: '100',
     cpuAmount: '100'

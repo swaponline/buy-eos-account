@@ -2,8 +2,8 @@ const chai = require('chai')
 chai.use(require('chai-spies'))
 const expect = chai.expect
 
-var bitcore = require('bitcore-lib');
-var Message = require('../src/helpers/message.js');
+const bitcoin = require('bitcoinjs-lib')
+const bitcoinMessage = require('bitcoinjs-message')
 
 const createAccount = chai.spy()
 
@@ -19,14 +19,15 @@ const init = (done) => {
     .add({ role: 'eos', cmd: 'createAccount' }, createAccount)
 }
 
-const encodedPrivateKey = 'cPBn5A4ikZvBTQ8D7NnvHZYCAxzDZ5Z2TSGW2LkyPiLxqYaJPBW4'
 const sign = (args) => {
   const { accountName, publicKey, address, encodedPrivateKey } = args
 
-  const message = JSON.stringify({ account, publicKey })
-  const messageHash = bitcore.crypto.Hash.sha256(new Buffer(message)).toString('hex')
-  const privateKey = bitcore.PrivateKey.fromWIF(encodedPrivateKey)
-  const signature = Message(messageHash).sign(privateKey)
+  const message = JSON.stringify({ accountName, publicKey })
+
+  const keyPair = bitcoin.ECPair.fromWIF(encodedPrivateKey, bitcoin.networks.bitcoin)
+  const privateKey = keyPair.d.toBuffer(32)
+
+  const signature = bitcoinMessage.sign(message, privateKey, keyPair.compressed)
 
   return signature
 }
@@ -36,11 +37,19 @@ describe('btc microservice', () => {
     it('should accept valid signature', (done) => {
       const seneca = init(done)
 
+      const encodedPrivateKey = 'L2dKABrAe4B6tBMjNSSxM9E153VAVXp38fYmCZLVGzdyS8FJt22W'
+
+      const accountName = 'eos3kmfpt43l'
+      const publicKey = 'EOS7KmFPT83Liaertj278s8f72VupnUVaqL6BmN2xTjjj6LN6ZrJ2'
+      const address = '1G1jReACZT9cjdqbDjuVRoVeAEG8PPLgQm'
+
+      const signature = sign({ accountName, publicKey, address, encodedPrivateKey })
+
       const args = {
-        accountName: 'eos3kmfpt43l',
-        publicKey: 'EOS7KmFPT83Liaertj278s8f72VupnUVaqL6BmN2xTjjj6LN6ZrJ2',
-        address: 'n1ZCYg9YXtB5XCZazLxSmPDa8iwJRZHhGx',
-        signature: 'HxZQC034lDIcYnMrO/Uwu50E9youAML8QBcPBDZzCVR1UwrWQVOfhwyZoIxytHKunNY59L2XcKnlkagsxBm+eRY='
+        accountName,
+        publicKey,
+        address,
+        signature
       }
 
       seneca.act({ role: 'btc', cmd: 'checkSignature' }, args, (err, result) => {

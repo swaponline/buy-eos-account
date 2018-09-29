@@ -1,6 +1,6 @@
-const bitcore = require('bitcore-lib');
-const Message = require('../helpers/message.js');
 const generateAccountName = require('../helpers/generateAccountName.js')
+
+const bitcoinMessage = require('bitcoinjs-message')
 
 module.exports = function btc(options) {
   const seneca = this
@@ -14,8 +14,7 @@ module.exports = function btc(options) {
     const { accountName, publicKey, address, signature } = args
 
     const message = JSON.stringify({ accountName, publicKey })
-    const messageHash = bitcore.crypto.Hash.sha256(new Buffer(message)).toString('hex')
-    const verified = Message(messageHash).verify(address, signature)
+    const verified = bitcoinMessage.verify(message, address, signature)
 
     done(null, { verified })
   }

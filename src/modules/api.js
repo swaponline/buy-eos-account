@@ -3,6 +3,18 @@ module.exports = function api(options) {
 
   const { recipient, value } = options
 
+  seneca.add('init:api', (args, done) => {
+    seneca.act({ role: 'web' }, {
+      routes: {
+        prefix: '/',
+        pin: 'role:api,path:*',
+        map: {
+          newaccount: { POST: true, suffix: '/' }
+        }
+      }
+    }, done)
+  })
+
   // POST /buyaccount
   seneca.add({ role: 'api', cmd: 'newaccount' }, main)
   seneca.add({ role: 'api', path: 'buyaccount' }, (args, done) => {

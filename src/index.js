@@ -47,14 +47,3 @@ const seneca = require('seneca')({ debug: { undead: true } })
   .use(require('./modules/insight.js'), insightOptions)
   .use(require('./modules/btc.js'), btcOptions)
   .use(require('./modules/api.js'), apiOptions)
-
-
-seneca.act({ role: 'web' }, {
-  routes: {
-    prefix: '/',
-    pin: 'role:api,path:*',
-    map: {
-      newaccount: { POST: true, suffix: '/' }
-    }
-  }
-})

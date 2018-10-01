@@ -1,7 +1,5 @@
 require('dotenv').config()
 
-console.log(process.env.SERVICE_PRIVATE_KEY)
-
 const SenecaWeb = require('seneca-web')
 const Express = require('express')
 const Router = Express.Router
@@ -12,17 +10,24 @@ const app = Express()
   .use(context)
   .listen(process.env.PORT)
 
+const httpEndpoint = process.env.MAINNET == true ?
+  'https://api.eosnewyork.io' :
+  'https://jungle.eosio.cr'
+const chainId = process.env.MAINNET == true ?
+  'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906' :
+  '038f4b0fc8ff18a4f0842a8f0564611f6e96e8535901dd45e43ac8691a1c4dca'
+
 const eosOptions = {
   params: {
     serviceAccount: process.env.SERVICE_ACCOUNT,
     bytesAmount: '10000',
-    netAmount: '100',
-    cpuAmount: '100'
+    netAmount: '100.0000',
+    cpuAmount: '100.0000'
   },
   config: {
     keyProvider: process.env.SERVICE_PRIVATE_KEY,
-    httpEndpoint: 'https://jungle.eosio.cr',
-    chainId: '038f4b0fc8ff18a4f0842a8f0564611f6e96e8535901dd45e43ac8691a1c4dca'
+    httpEndpoint: httpEndpoint,
+    chainId: chainId
   }
 }
 

@@ -10,6 +10,7 @@ module.exports = function api(options) {
         pin: 'role:api,path:*',
         map: {
           newaccount: { POST: true, suffix: '/' },
+          buyaccount: { POST: true, suffix: '/' },
           ping: { GET: true, suffix: '/' }
         }
       }
@@ -71,7 +72,7 @@ module.exports = function api(options) {
           }, (err, result) => {
             if (err) return done(err)
 
-            done({ result })
+            done(null, result)
           })
         })
       })

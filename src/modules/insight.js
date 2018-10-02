@@ -8,7 +8,7 @@ module.exports = function insight(options) {
   seneca.add({ role: 'insight', cmd: 'getTransaction' }, getTransaction)
 
   function getTransaction(args, done) {
-    const { txid, testnet } = args
+    const { txid } = args
 
     request(`${baseURL}/tx/${txid}`, (error, response, body) => {
       if (error) return done(error)

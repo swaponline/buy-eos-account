@@ -29,7 +29,7 @@ module.exports = function api(options) {
 
   // POST /newaccount (legacy)
   seneca.add({ role: 'api', path: 'newaccount' }, (args, done) => {
-    seneca.act({ role: 'eos', cmd: 'createAccount' }, args, done)
+    seneca.act({ role: 'eos', cmd: 'createAccount' }, args.args.body, done)
   })
 
   function main(args, done) {

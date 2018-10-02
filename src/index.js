@@ -10,12 +10,17 @@ const app = Express()
   .use(context)
   .listen(process.env.PORT)
 
-const httpEndpoint = process.env.MAINNET == true ?
+const eosEndpoint = process.env.MAINNET == true ?
   'https://api.eosnewyork.io' :
   'https://jungle.eosio.cr'
+
 const chainId = process.env.MAINNET == true ?
   'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906' :
   '038f4b0fc8ff18a4f0842a8f0564611f6e96e8535901dd45e43ac8691a1c4dca'
+
+const insightEndpoint = process.env.MAINNET == true ?
+  'https://insight.bitpay.com/api' :
+  'https://test-insight.bitpay.com/api'
 
 const eosOptions = {
   params: {
@@ -26,7 +31,7 @@ const eosOptions = {
   },
   config: {
     keyProvider: process.env.SERVICE_PRIVATE_KEY,
-    httpEndpoint: httpEndpoint,
+    httpEndpoint: eosEndpoint,
     chainId: chainId
   }
 }
@@ -39,7 +44,7 @@ const apiOptions = {
 const btcOptions = {}
 
 const insightOptions = {
-  baseURL: 'https://test-insight.bitpay.com/api'
+  baseURL: insightEndpoint
 }
 
 const seneca = require('seneca')({ debug: { undead: true } })

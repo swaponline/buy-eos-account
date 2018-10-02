@@ -37,19 +37,19 @@ module.exports = function api(options) {
     const sender = address
 
     if (!accountName || accountName.length !== 12) {
-      return done({ error: 'invalid accountName' })
+      return done('invalid accountName')
     }
     if (!publicKey) {
-      return done({ error: 'invalid publicKey'})
+      return done('invalid publicKey')
     }
     if (!address) {
-      return done({ error: 'invalid address' })
+      return done('invalid address')
     }
     if (!signature) {
-      return done({ error: 'invalid signature' })
+      return done('invalid signature')
     }
     if (!txid) {
-      return done({ error: 'invalid txid' })
+      return done('invalid txid')
     }
 
     seneca.act({ role: 'btc', cmd: 'checkSignature' }, {

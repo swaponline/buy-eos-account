@@ -10,7 +10,7 @@ const createAccountSpy = chai.spy()
 const init = (done) => {
   return require('seneca')()
     .test(done)
-    .use(require('../src/modules/api.js'), {
+    .use(require('../src/api/defaultAPI.js'), {
       recipient: 'mqtaf5jVoHDQ8zhhJ7bvQimBJh5Ty5J75Q',
       value: '0.1'
     })
@@ -34,7 +34,7 @@ describe('api microservice', () => {
       const seneca = init(done)
 
       const {
-        account, publicKey, address, signature, txid, accountName, sender, recipient, value
+        publicKey, address, signature, txid, accountName, sender, recipient, value
       } = {
         publicKey: '5K2JPteU12iX2ognRLEoghGvbDn2SYdGGBX2E1Yr99pFDTa6Aiq',
         address: 'n1ZCYg9YXtB5XCZazLxSmPDa8iwJRZHhGx',

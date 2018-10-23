@@ -7,6 +7,11 @@ const context = new Router()
 
 const app = Express()
   .use(require('body-parser').json())
+  .use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  })
   .use(context)
   .listen(process.env.PORT)
 
@@ -26,8 +31,8 @@ const eosOptions = {
   params: {
     serviceAccount: process.env.SERVICE_ACCOUNT,
     bytesAmount: '10000',
-    netAmount: '100.0000',
-    cpuAmount: '100.0000'
+    netAmount: '1.0000',
+    cpuAmount: '1.0000'
   },
   config: {
     keyProvider: process.env.SERVICE_PRIVATE_KEY,
@@ -56,4 +61,4 @@ const seneca = require('seneca')({ debug: { undead: true } })
   .use(require('./modules/eos.js'), eosOptions)
   .use(require('./modules/insight.js'), insightOptions)
   .use(require('./modules/btc.js'), btcOptions)
-  .use(require('./modules/api.js'), apiOptions)
+  .use(require('./api/defaultAPI.js'), apiOptions)

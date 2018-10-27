@@ -7,11 +7,6 @@ const context = new Router()
 
 const app = Express()
   .use(require('body-parser').json())
-  .use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  })
   .use(context)
   .listen(process.env.PORT)
 

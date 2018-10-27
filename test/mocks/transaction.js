@@ -90,9 +90,9 @@ module.exports = {
       'addresses': ['mqtaf5jVoHDQ8zhhJ7bvQimBJh5Ty5J75Q'],
       'type': 'pubkeyhash'
     },
-    'spentTxId': null,
-    'spentIndex': null,
-    'spentHeight': null
+    'spentTxId': "dfa1651e1df39756312bfc1d507e5838cce031d5c0a63fcd2423fdee413e0319",
+    'spentIndex': 0,
+    'spentHeight': 1414180
   }, {
     'value': '0.56394106',
     'n': 1,
@@ -102,9 +102,9 @@ module.exports = {
       'addresses': ['mpAaNgjBUU7edRZ1ruoYeuBaXvkWFXDmpY'],
       'type': 'pubkeyhash'
     },
-    'spentTxId': null,
-    'spentIndex': null,
-    'spentHeight': null
+    'spentTxId': "157f31a2edece623208208b69fda1a6c45700734d3cad3037ef2043e91b80876",
+    'spentIndex': 30,
+    'spentHeight': 1414849
   }],
   'blockhash': '0000000048cfcab83cb9977479cafc57d16bf159945914d2406f27fe76cac94b',
   'blockheight': 1414097,

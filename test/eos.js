@@ -1,8 +1,25 @@
-const expect = require('chai').expect
+const mock = require('mock-require')
+
+const chai = require('chai')
+chai.use(require('chai-spies'))
+const expect = chai.expect
+
+const txMock = {
+  newaccount: chai.spy(),
+  buyrambytes: chai.spy(),
+  delegatebw: chai.spy()
+}
+mock('eosjs', function EOS() {
+  return {
+    transaction: (fn) => {
+      fn(txMock)
+      return Promise.resolve({ transaction_id: '0x123' })
+    }
+  }
+})
 
 const httpEndpoint = 'https://jungle.eosio.cr'
 const chainId = '038f4b0fc8ff18a4f0842a8f0564611f6e96e8535901dd45e43ac8691a1c4dca'
-
 
 const options = {
   params: {
@@ -34,7 +51,10 @@ describe('eos microservice', function() {
     const seneca = init(done)
 
     seneca.act({ role: 'eos', cmd: 'createAccount' }, { accountName, publicKey }, (err, result) => {
-      expect(result.transaction_id.length).to.be.above(0)
+      expect(result.transaction_id).to.be.equal('0x123')
+      expect(txMock.newaccount).to.have.been.called()
+      expect(txMock.buyrambytes).to.have.been.called()
+      expect(txMock.delegatebw).to.have.been.called()
       done()
     })
   })

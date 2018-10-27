@@ -10,6 +10,9 @@ const createAccountSpy = chai.spy()
 const init = (done) => {
   return require('seneca')()
     .test(done)
+    .add({ role: 'web' }, (args, done) => {
+      done()
+    })
     .use(require('../src/api/defaultAPI.js'), {
       recipient: 'mqtaf5jVoHDQ8zhhJ7bvQimBJh5Ty5J75Q',
       value: '0.1'
@@ -28,7 +31,7 @@ const init = (done) => {
     })
 }
 
-describe('api microservice', () => {
+describe('default API microservice', () => {
   describe('register EOS account for user after BTC payment', () => {
     it('should process correct request', (done) => {
       const seneca = init(done)
@@ -46,12 +49,12 @@ describe('api microservice', () => {
         accountName: 'eos3kmfpt43l'
       }
 
-      const args = { accountName, publicKey, address, signature, txid }
+      const args = { args: { body: { accountName, publicKey, address, signature, txid } }}
       const signatureArgs = { accountName, publicKey, address, signature }
       const accountArgs = { publicKey, accountName }
       const paymentArgs = { txid, sender, recipient, value }
 
-      seneca.act({ role: 'api', cmd: 'newaccount' }, args, (err, result) => {
+      seneca.act({ role: 'api', path: 'buyaccount' }, args, (err, result) => {
         expect(checkSignatureSpy).to.have.been.called()
         expect(checkAccountSpy).to.have.been.called()
         expect(checkPaymentSpy).to.have.been.called()

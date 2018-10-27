@@ -13,6 +13,7 @@
     "dotenv": "^6.0.0",
     "eosjs": "^16.0.8",
     "express": "^4.16.3",
+    "mock-require": "^3.0.2",
     "request": "^2.88.0",
     "seneca": "^3.7.0",
     "seneca-web": "^2.2.1",

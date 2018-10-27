@@ -8,7 +8,6 @@ const init = (done) => {
     })
 }
 
-
 describe('insight microservice', () => {
   it('should return transaction details', (done) => {
     const seneca = init(done)

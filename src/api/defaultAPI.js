@@ -20,14 +20,8 @@ module.exports = function api(options) {
     done(null, { ping: new Date() })
   })
 
-  // POST /buyaccount
-  seneca.add({ role: 'api', cmd: 'newaccount' }, main)
   seneca.add({ role: 'api', path: 'buyaccount' }, (args, done) => {
-    seneca.act({ role: 'api', cmd: 'newaccount' }, args.args.body, done)
-  })
-
-  function main(args, done) {
-    const { accountName, publicKey, address, signature, txid } = args
+    const { accountName, publicKey, address, signature, txid } = args.args.body
     const sender = address
 
     if (!accountName || accountName.length !== 12) {
@@ -71,5 +65,5 @@ module.exports = function api(options) {
         })
       })
     })
-  }
+  })
 }

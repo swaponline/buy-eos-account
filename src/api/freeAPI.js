@@ -20,13 +20,7 @@ module.exports = function api(options) {
     done(null, { ping: new Date() })
   })
 
-  // POST /newaccount
-  seneca.add({ role: 'api', cmd: 'newaccount'}, main)
   seneca.add({ role: 'api', path: 'newaccount' }, (args, done) => {
-    seneca.act({ role: 'api', cmd: 'newaccount' }, args, done)
+    seneca.act({ role: 'eos', cmd: 'createAccount' }, args.args.body, done)
   })
-
-  function main(args, done) {
-    seneca.act({ role: 'eos', cmd: 'createAccount' }, args, done)
-  }
 }

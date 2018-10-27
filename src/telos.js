@@ -15,10 +15,6 @@ const app = Express()
   .use(context)
   .listen(process.env.PORT)
 
-const telosEndpoint = 'https://seven.swap.online/telos-endpoint'
-
-const chainId = '6c8aacc339bf1567743eb9c8ab4d933173aa6dca4ae6b6180a849c422f5bb207'
-
 const eosOptions = {
   params: {
     serviceAccount: process.env.SERVICE_ACCOUNT,
@@ -28,8 +24,9 @@ const eosOptions = {
   },
   config: {
     keyProvider: process.env.SERVICE_PRIVATE_KEY,
-    httpEndpoint: telosEndpoint,
-    chainId: chainId
+    httpEndpoint: 'https://seven.swap.online/telos-endpoint',
+    chainId: '6c8aacc339bf1567743eb9c8ab4d933173aa6dca4ae6b6180a849c422f5bb207',
+    keyPrefix: 'TLOS'
   }
 }
 

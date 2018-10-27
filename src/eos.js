@@ -27,6 +27,8 @@ const insightEndpoint = process.env.MAINNET == true ?
   'https://insight.bitpay.com/api' :
   'https://test-insight.bitpay.com/api'
 
+const keyPrefix = 'EOS'
+
 const eosOptions = {
   params: {
     serviceAccount: process.env.SERVICE_ACCOUNT,
@@ -37,7 +39,8 @@ const eosOptions = {
   config: {
     keyProvider: process.env.SERVICE_PRIVATE_KEY,
     httpEndpoint: eosEndpoint,
-    chainId: chainId
+    chainId: chainId,
+    keyPrefix: keyPrefix
   }
 }
 

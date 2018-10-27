@@ -7,11 +7,11 @@ module.exports = function eos(options) {
 
   const {
     params: { serviceAccount, bytesAmount, netAmount, cpuAmount },
-    config: { chainId, httpEndpoint, keyProvider, mockTransactions }
+    config: { chainId, httpEndpoint, keyProvider, mockTransactions, keyPrefix }
   } = options
 
   const node = Eos({
-    chainId, httpEndpoint, keyProvider, mockTransactions
+    chainId, httpEndpoint, keyProvider, mockTransactions, keyPrefix
   })
 
   function createAccount(args, done) {
@@ -34,8 +34,8 @@ module.exports = function eos(options) {
       tx.delegatebw({
         from: serviceAccount,
         receiver: accountName,
-        stake_net_quantity: `${netAmount} EOS`,
-        stake_cpu_quantity: `${cpuAmount} EOS`,
+        stake_net_quantity: `${netAmount} ${keyPrefix}`,
+        stake_cpu_quantity: `${cpuAmount} ${keyPrefix}`,
         transfer: 0
       })
     }).then((result) => {

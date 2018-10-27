@@ -9,21 +9,13 @@ const txMock = {
   buyrambytes: chai.spy(),
   delegatebw: chai.spy()
 }
-mock('eosjs', function EOS() {
-  return {
-    transaction: (fn) => {
-      fn(txMock)
-      return Promise.resolve({ transaction_id: '0x123' })
-    }
-  }
-})
 
-const httpEndpoint = 'https://jungle.eosio.cr'
-const chainId = '038f4b0fc8ff18a4f0842a8f0564611f6e96e8535901dd45e43ac8691a1c4dca'
+const httpEndpoint = 'https://seven.swap.online/telos-endpoint'
+const chainId = '6c8aacc339bf1567743eb9c8ab4d933173aa6dca4ae6b6180a849c422f5bb207'
 
 const options = {
   params: {
-    serviceAccount: 'sevenflash12',
+    serviceAccount: 'sevenflash11',
     bytesAmount: '10000',
     netAmount: '100.0000',
     cpuAmount: '100.0000'
@@ -41,8 +33,8 @@ const init = (done) => {
     .use(require('../src/modules/eos.js'), options)
 }
 
-const accountName = 'sevenflashss'
-const publicKey = 'EOS6J2765xNSyjNi26QHPrj851FKYxuy88jE37ZWaCeLuQmtv9Lwn'
+const accountName = 'tlos3vxfpgec'
+const publicKey = 'TLOS6J2765xNSyjNi26QHPrj851FKYxuy88jE37ZWaCeLuQmtv9Lwn'
 
 describe('eos microservice', function() {
   this.timeout(42000)

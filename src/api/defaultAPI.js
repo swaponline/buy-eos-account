@@ -24,46 +24,82 @@ module.exports = function api(options) {
     const { accountName, publicKey, address, signature, txid } = args.args.body
     const sender = address
 
-    if (!accountName || accountName.length !== 12) {
-      return done('invalid accountName')
-    }
-    if (!publicKey) {
-      return done('invalid publicKey')
-    }
-    if (!address) {
-      return done('invalid address')
-    }
-    if (!signature) {
-      return done('invalid signature')
-    }
-    if (!txid) {
-      return done('invalid txid')
-    }
-
-    seneca.act({ role: 'btc', cmd: 'checkSignature' }, {
+    checkSignature({
       accountName, publicKey, address, signature
-    }, (err, result) => {
-      if (err) return done(err)
-
-      seneca.act({ role: 'btc', cmd: 'checkAccount' }, {
-        publicKey, accountName
-      }, (err, result) => {
-        if (err) return done(err)
-
-        seneca.act({ role: 'btc', cmd: 'checkPayment' }, {
-          txid, sender, recipient, value
-        }, (err, result) => {
-          if (err) return done(err)
-
-          seneca.act({ role: 'eos', cmd: 'createAccount' }, {
-            accountName, publicKey
-          }, (err, result) => {
-            if (err) return done(err)
-
-            done(null, result)
-          })
+    })
+      .then(() => {
+        return checkAccount({
+          publicKey, accountName
         })
       })
-    })
+      .then(() => {
+        return checkPayment({
+          txid, sender, recipient, value
+        })
+      })
+      .then(() => {
+        return createAccount({
+          accountName, publicKey
+        })
+      })
+      .then((result) => {
+        done(null, result)
+      })
+      .catch((err) => {
+        done(err)
+      })
   })
+
+  function checkSignature({ accountName, publicKey, address, signature }) {
+    return new Promise((resolve, reject) => {
+      if (!accountName || accountName.length !== 12) {
+        return reject('invalid accountName')
+      }
+      if (!publicKey) {
+        return reject('invalid publicKey')
+      }
+      if (!address) {
+        return reject('invalid address')
+      }
+      if (!signature) {
+        return reject('invalid signature')
+      }
+
+      seneca.act({ role: 'btc', cmd: 'checkSignature' }, { accountName, publicKey, address, signature }, (err, result) => {
+        if (err) return reject(err)
+        resolve(result)
+      })
+    })
+  }
+
+  function checkAccount({ publicKey, accountName }) {
+    return new Promise((resolve, reject) => {
+      seneca.act({ role: 'btc', cmd: 'checkAccount' }, { publicKey, accountName }, (err, result) => {
+        if (err) return reject(err)
+        resolve(result)
+      })
+    })
+  }
+
+  function checkPayment({ txid, sender, recipient, value }) {
+    return new Promise((resolve, reject) => {
+      if (!txid) {
+        return reject('invalid txid')
+      }
+
+      seneca.act({ role: 'btc', cmd: 'checkPayment' }, { txid, sender, recipient, value }, (err, result) => {
+        if (err) return reject(err)
+        resolve(result)
+      })
+    })
+  }
+
+  function createAccount({ accountName, publicKey }) {
+    return new Promise((resolve, reject) => {
+      seneca.act({ role: 'eos', cmd: 'createAccount' }, { accountName, publicKey }, (err, result) => {
+        if (err) return reject(err)
+        resolve(result)
+      })
+    })
+  }
 }

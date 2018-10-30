@@ -35,6 +35,14 @@ module.exports = function api(options) {
       .then(() => {
         return checkPayment({
           txid, sender, recipient, value
+        }).catch((err) => {
+          return new Promise((resolve) => {
+            setTimeout(resolve, 5000)
+          }).then(() => {
+            return checkPayment({
+              txid, sender, recipient, value
+            })
+          })
         })
       })
       .then(() => {

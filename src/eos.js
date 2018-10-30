@@ -40,8 +40,8 @@ const eosOptions = {
 }
 
 const apiOptions = {
-  recipient: 'mqtaf5jVoHDQ8zhhJ7bvQimBJh5Ty5J75Q',
-  value: '0.1'
+  recipient: process.env.PAYMENT_RECIPIENT,
+  value: process.env.PAYMENT_AMOUNT
 }
 
 const btcOptions = {}

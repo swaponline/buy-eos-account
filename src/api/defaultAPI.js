@@ -1,3 +1,5 @@
+const sleep = require('../helpers/sleep')
+
 module.exports = function api(options) {
   const seneca = this
 
@@ -33,16 +35,16 @@ module.exports = function api(options) {
         })
       })
       .then(() => {
-        return checkPayment({
-          txid, sender, recipient, value
-        }).catch((err) => {
-          return new Promise((resolve) => {
-            setTimeout(resolve, 5000)
-          }).then(() => {
-            return checkPayment({
-              txid, sender, recipient, value
+        const waitForPayment = (args) => {
+          return checkPayment(args).catch(() => {
+            return sleep(5000).then(() => {
+              return waitForPayment(args)
             })
           })
+        }
+
+        return waitForPayment({
+          txid, sender, recipient, value
         })
       })
       .then(() => {

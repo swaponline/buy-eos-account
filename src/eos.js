@@ -10,15 +10,15 @@ const app = Express()
   .use(context)
   .listen(process.env.PORT)
 
-const eosEndpoint = process.env.MAINNET == true ?
+const eosEndpoint = process.env.MAINNET == 'true' ?
   'https://api.eosnewyork.io' :
-  'https://jungle.eosio.cr'
+  'http://jungle2.cryptolions.io:80'
 
-const chainId = process.env.MAINNET == true ?
+const chainId = process.env.MAINNET == 'true' ?
   'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906' :
-  '038f4b0fc8ff18a4f0842a8f0564611f6e96e8535901dd45e43ac8691a1c4dca'
+  'e70aaab8997e1dfce58fbfac80cbbb8fecec7b99cf982a9444273cbc64c41473'
 
-const insightEndpoint = process.env.MAINNET == true ?
+const insightEndpoint = process.env.MAINNET == 'true' ?
   'https://insight.bitpay.com/api' :
   'https://test-insight.bitpay.com/api'
 
@@ -40,7 +40,7 @@ const eosOptions = {
 }
 
 const apiOptions = {
-  recipient: 'mqtaf5jVoHDQ8zhhJ7bvQimBJh5Ty5J75Q',
+  recipient: process.env.PAYMENT_RECIPIENT,
   value: '0.1'
 }
 
